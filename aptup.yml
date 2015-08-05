@@ -1,10 +1,11 @@
 ---
 # apt update and upgrade
-
-- name: apt update
-  apt: update_cache=yes
-  sudo: yes
-- name: apt upgrade
-  apt: upgrade=yes
-  sudo: yes
+- hosts: local
+  tasks:
+  - name: apt update
+    apt: update_cache=yes
+    sudo: yes
+  - name: apt upgrade
+    apt: upgrade=yes
+    sudo: yes
 
