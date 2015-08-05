@@ -1,0 +1,63 @@
+---
+#创建用户配置ssh使之密钥登陆
+#ansible-playbook ssh_user.yml --user root --ask-pass
+- hosts: local
+  vars:
+    - remote_password: oye
+    - key_pub: /Users/sdhou/.ssh/id_rsa.pub
+ 
+  tasks:
+  - name: Add user remote
+    group: name=remote state=present
+
+  - name: Add user remote
+    user:
+      name=remote
+      shell=/bin/bash
+      group=remote
+      password={{ remote_password }}
+ 
+  - name: Add SSH public key to user remote
+    authorized_key:
+      user=remote
+      key="{{ lookup('file', "/Users/sdhou/.ssh/id_rsa.pub") }}"
+ 
+  - name: Add user remote to sudoers
+    lineinfile:
+      "dest=/etc/sudoers
+      regexp='^remote ALL'
+      line='remote ALL=(ALL) NOPASSWD: ALL'
+      state=present"
+ 
+  - name: Disallow root SSH access
+    lineinfile:
+      dest=/etc/ssh/sshd_config
+      regexp="^PermitRootLogin"
+      line="PermitRootLogin no"
+      state=present
+    notify:
+      - restart sshd
+ 
+  - name: Disallow SSH password authentication
+    lineinfile:
+      dest=/etc/ssh/sshd_config
+      regexp="^PasswordAuthentication"
+      line="PasswordAuthentication no"
+      state=present
+    notify:
+      - restart sshd
+ 
+  - name: Disallow SSH GSS API authentication
+    lineinfile:
+      dest=/etc/ssh/sshd_config
+      regexp="^GSSAPIAuthentication"
+      line="GSSAPIAuthentication no"
+      state=present
+    notify:
+      - restart sshd
+
+  handlers:
+  - name: restart sshd
+    service: 
+      name=ssh
+      state=restarted
