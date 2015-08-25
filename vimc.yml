@@ -1,0 +1,6 @@
+---
+# copy vim config
+- hosts: local
+  tasks:
+  - name: copy .vimrc
+    copy: src=/Users/sdhou/.vim/.vimrc dest=/home/remote/

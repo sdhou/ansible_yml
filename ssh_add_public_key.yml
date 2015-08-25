@@ -1,0 +1,8 @@
+---
+#加公钥
+- hosts: od
+  tasks:
+  - name: Add SSH public key to user remote
+    authorized_key:
+      user=remote
+      key="{{ lookup('file', "/tmp/public.key") }}"

@@ -1,0 +1,22 @@
+---
+# apt install php
+- hosts: php
+  sudo: yes
+  tasks:
+  - name: install software-properties-common
+    apt: name=software-properties-common
+  - name: install ondrje/php5-5.6
+    command: 'apt-add-repository ppa:ondrej/php5-5.6 -y'
+  - name: apt update
+    apt: update_cache=yes
+  - name: apt upgrade
+    apt: upgrade=yes
+  - name: install php packages
+    apt: name={{ item }}
+    with_items:
+      - php5
+      - php5-cli
+      - php5-curl
+      - php5-mcrypt
+      - php5-mysql
+

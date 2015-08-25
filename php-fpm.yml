@@ -1,0 +1,24 @@
+---
+# apt install php-fpm
+- hosts: fpm
+  sudo: yes
+  tasks:
+  - name: install fpm packages
+    apt: name=php5-fpm
+  - name: del default fpm conf
+    file: path=/etc/php5/fpm/pool.d/www.conf state=absent
+  - name: copy fpm conf
+    copy: src=conf/fpm/{{ item }} dest=/etc/php5/fpm/pool.d/{{ item }}
+    with_items:
+      - api.conf
+      - touchweb.conf
+      - site.conf
+      - backgroup.conf
+    notify:
+        - restart fpm
+  handlers:
+    - name: restart fpm
+      service:
+        name=php5-fpm
+        state=restarted
+

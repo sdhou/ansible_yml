@@ -1,0 +1,26 @@
+---
+#ucloud install agent 安装监控
+- hosts: local
+  tasks:
+  - name: download uma
+    get_url: url=http://static.ucloud.cn/uma/uma_1.0.7-1_amd64.deb dest=/tmp/uma.deb
+
+  - name: install uma
+    apt: deb="/tmp/uma.deb"
+    sudo: true
+
+  - name: copy static_conf.json
+    copy: src=static_conf.json dest=/etc/uma/static_conf.json
+    sudo: true
+    notify:
+        - restart uma
+
+  - name: del uma install file
+    file: path=/tmp/uma.deb state=absent
+    sudo: true
+
+  handlers:
+    - name: restart uma
+      service:
+        name=uma
+        state=started
