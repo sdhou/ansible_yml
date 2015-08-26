@@ -1,0 +1,12 @@
+[user]
+    name = server
+    email = server@odong.com
+[color]
+    ui = true
+[alias]
+    st = status
+    re = rebase
+    co = checkout
+    br = branch
+    a = add -A
+    ci = commit -a
