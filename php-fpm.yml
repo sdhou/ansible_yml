@@ -1,6 +1,6 @@
 ---
 # apt install php-fpm
-- hosts: fpm
+- hosts: odtest
   sudo: yes
   tasks:
   - name: install fpm packages

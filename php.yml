@@ -1,6 +1,6 @@
 ---
 # apt install php
-- hosts: php
+- hosts: odtest
   sudo: yes
   tasks:
   - name: install software-properties-common
