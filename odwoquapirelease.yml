@@ -1,0 +1,5 @@
+---
+# api release
+- hosts: appserver
+  tasks:
+  - command: /data/woquapi/autorelease.sh chdir=/data/woquapi
