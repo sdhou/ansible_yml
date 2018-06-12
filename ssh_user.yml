@@ -1,6 +1,6 @@
 ---
 #创建用户配置ssh使之密钥登陆
-#ansible-playbook ssh_user.yml --user ubuntu --ask-pass -s -U root --ask-sudo-pass
+#ansible-playbook ssh_user.yml --user ubuntu --ask-pass -s -U root --ask-sudo-pass -i hosts
 - hosts: add_user
   vars:
     - remote_password: oye
